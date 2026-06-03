@@ -23,5 +23,13 @@ export const games: Game[] = [
 		path: '/games/echo-sonar',
 		players: '1 Player',
 		tags: ['atmospheric', 'puzzle', 'stealth']
+	},
+	{
+		id: 'fault-line',
+		title: 'Fault Line',
+		description: "Tap to quake. Destroy the targets. Don't touch the green.",
+		path: '/games/fault-line',
+		players: '1 Player',
+		tags: ['physics', 'puzzle', 'destruction']
 	}
 ];

@@ -1,36 +1,35 @@
-export interface StarResult {
-	stars: 1 | 2 | 3;
-	failed: boolean;
+export interface ScoreResult {
+  stars: 0 | 1 | 2 | 3;
+  failed: boolean;
+  richterMagnitude: number;
 }
 
-export function calculateStars(
-	quakesUsed: number,
-	par: number,
-	safeZoneHealthPct: number,
-	chainBonus: boolean
-): StarResult {
-	if (safeZoneHealthPct <= 0) {
-		return { stars: 1, failed: true };
-	}
+export function calculateScore(
+  quakesUsed: number,
+  par: number,
+  worstSafeZoneHealthPct: number,
+  chainBonus: boolean
+): ScoreResult {
+  if (worstSafeZoneHealthPct <= 0) {
+    return { stars: 0, failed: true, richterMagnitude: 1 };
+  }
 
-	let stars: 1 | 2 | 3 = 1;
+  let stars: 0 | 1 | 2 | 3 = 1;
 
-	if (quakesUsed <= par && safeZoneHealthPct >= 1) {
-		stars = 3;
-	} else if (quakesUsed <= par + 2 && safeZoneHealthPct > 0.5) {
-		stars = 2;
-	}
+  if (quakesUsed <= par && worstSafeZoneHealthPct === 1) {
+    stars = 3;
+  } else if (quakesUsed <= par + 2 && worstSafeZoneHealthPct > 0.5) {
+    stars = 2;
+  } else {
+    stars = 1;
+  }
 
-	if (chainBonus && stars > 1) {
-		// Chain bonus can offset one damage penalty — bump if health dipped but still alive
-		if (safeZoneHealthPct < 1 && safeZoneHealthPct > 0.5 && stars === 2) {
-			stars = 3;
-		}
-	}
+  if (chainBonus && stars === 2) stars = 3;
 
-	return { stars, failed: false };
-}
+  const richterMagnitude =
+    stars === 3 ? 5 + Math.random() :
+    stars === 2 ? 3 + Math.random() :
+    1.5 + Math.random();
 
-export function richterMagnitude(stars: 1 | 2 | 3): number {
-	return stars === 3 ? 6 : stars === 2 ? 4 : 2;
+  return { stars, failed: false, richterMagnitude };
 }
