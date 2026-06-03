@@ -1,0 +1,66 @@
+/* Open Games — Minimal Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black:       #0a0a0a;
+  --gray-950:    #111111;
+  --gray-900:    #1a1a1a;
+  --gray-800:    #242424;
+  --gray-700:    #333333;
+  --gray-500:    #666666;
+  --gray-400:    #888888;
+  --gray-300:    #aaaaaa;
+  --gray-200:    #cccccc;
+  --gray-100:    #e8e8e8;
+  --gray-50:     #f2f2f2;
+  --white:       #fafafa;
+
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+
+  color-scheme: dark;
+}
+
+html {
+  font-family: var(--font);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  min-height: 100dvh;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font);
+  border: none;
+  background: none;
+}
+
+/* Page transitions */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: fade-up 0.25s ease both;
+}
