@@ -32,6 +32,8 @@ export class Enemy {
     (b as any).inertia = Infinity;
     (b as any).inverseInertia = 0;
     this.sprite.setDisplaySize(36, 36);
+    // Tint armored guards blue-grey to distinguish from yellow-vested sentinels
+    if (def.type === 'armored') this.sprite.setTint(0x7799bb);
   }
 
   update(delta: number) {

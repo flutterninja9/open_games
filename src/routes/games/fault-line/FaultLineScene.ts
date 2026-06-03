@@ -35,64 +35,21 @@ export class FaultLineScene extends Phaser.Scene {
   constructor() { super('FaultLineScene'); }
 
   preload() {
-    this.genTex('wood_block', 40, 40, (ctx) => {
-      ctx.fillStyle = '#8B6914'; ctx.fillRect(0, 0, 40, 40);
-      ctx.strokeStyle = '#5a4010'; ctx.lineWidth = 2; ctx.strokeRect(1, 1, 38, 38);
-      ctx.strokeStyle = '#7a5c12'; ctx.lineWidth = 1;
-      for (let i = 8; i < 40; i += 8) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(40, i); ctx.stroke(); }
-    });
-    this.genTex('stone_block', 40, 40, (ctx) => {
-      ctx.fillStyle = '#6b6b6b'; ctx.fillRect(0, 0, 40, 40);
-      ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 2; ctx.strokeRect(1, 1, 38, 38);
-      ctx.fillStyle = '#505050'; ctx.fillRect(4, 4, 14, 14); ctx.fillRect(22, 22, 14, 14);
-    });
-    this.genTex('crate', 40, 40, (ctx) => {
-      ctx.fillStyle = '#9c7a2e'; ctx.fillRect(0, 0, 40, 40);
-      ctx.strokeStyle = '#4a3a00'; ctx.lineWidth = 3; ctx.strokeRect(1, 1, 38, 38);
-      ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(40, 40); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(40, 0); ctx.lineTo(0, 40); ctx.stroke();
-    });
-    this.genTex('stone_column', 40, 40, (ctx) => {
-      ctx.fillStyle = '#b8b0a0'; ctx.fillRect(0, 0, 40, 40);
-      ctx.strokeStyle = '#7a7060'; ctx.lineWidth = 2; ctx.strokeRect(1, 1, 38, 38);
-      ctx.fillStyle = '#a09888'; ctx.fillRect(5, 5, 30, 4); ctx.fillRect(5, 31, 30, 4);
-    });
-    this.genTex('sentinel', 36, 36, (ctx) => {
-      ctx.fillStyle = '#e8a020'; ctx.fillRect(10, 16, 16, 16);
-      ctx.fillStyle = '#f5c060'; ctx.beginPath(); ctx.arc(18, 12, 8, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#ffdd00'; ctx.fillRect(8, 6, 20, 5); ctx.fillRect(6, 9, 24, 3);
-      ctx.fillStyle = '#333'; ctx.fillRect(14, 10, 3, 3); ctx.fillRect(20, 10, 3, 3);
-    });
-    this.genTex('armored', 40, 40, (ctx) => {
-      ctx.fillStyle = '#445566'; ctx.fillRect(6, 14, 28, 22);
-      ctx.fillStyle = '#556677'; ctx.fillRect(2, 14, 10, 10); ctx.fillRect(28, 14, 10, 10);
-      ctx.fillStyle = '#556677'; ctx.beginPath(); ctx.arc(20, 10, 10, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#88aacc'; ctx.fillRect(12, 6, 16, 6);
-    });
-    this.genTex('civilian', 36, 36, (ctx) => {
-      ctx.fillStyle = '#cc5500'; ctx.fillRect(8, 20, 20, 12);
-      ctx.fillStyle = '#f5c060'; ctx.beginPath(); ctx.arc(18, 16, 8, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#ffdd00'; ctx.fillRect(8, 9, 20, 5);
-      ctx.strokeStyle = '#f5c060'; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(8, 20); ctx.lineTo(4, 12); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(28, 20); ctx.lineTo(32, 12); ctx.stroke();
-    });
-    this.genTex('artifact', 40, 56, (ctx) => {
-      ctx.fillStyle = '#8a7a50'; ctx.fillRect(8, 44, 24, 12);
-      ctx.fillStyle = '#d4a830'; ctx.beginPath(); ctx.ellipse(20, 28, 12, 18, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#c09020'; ctx.fillRect(15, 10, 10, 8);
-      const g = ctx.createRadialGradient(20, 30, 5, 20, 30, 20);
-      g.addColorStop(0, 'rgba(0,255,100,0.3)'); g.addColorStop(1, 'rgba(0,255,100,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(20, 30, 20, 0, Math.PI * 2); ctx.fill();
-    });
-    this.genTex('safe_zone_glow', 128, 128, (ctx) => {
-      const g = ctx.createRadialGradient(64, 64, 10, 64, 64, 64);
-      g.addColorStop(0, 'rgba(0,255,80,0.25)');
-      g.addColorStop(0.6, 'rgba(0,255,80,0.12)');
-      g.addColorStop(1, 'rgba(0,255,80,0)');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, 128, 128);
-    });
+    const base = '/games/fault-line/';
+
+    // Real sprite assets
+    this.load.image('wood_block',     `${base}wood_block.png`);
+    this.load.image('stone_block',    `${base}stone_block.png`);
+    this.load.image('stone_column',   `${base}stone_column.png`);
+    this.load.image('crate',          `${base}crate.png`);
+    this.load.image('artifact',       `${base}artifact.png`);
+    this.load.image('safe_zone_glow', `${base}safe_zone_glow.png`);
+    this.load.image('crack_decal',    `${base}crack.png`);
+    // Both enemy types share guards.png; armored gets a blue tint at runtime
+    this.load.image('sentinel', `${base}guards.png`);
+    this.load.image('armored',  `${base}guards.png`);
+
+    // Procedural textures — no matching file available
     this.genTex('ground_tile', 40, 40, (ctx) => {
       ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 0, 40, 40);
       ctx.strokeStyle = '#222'; ctx.lineWidth = 1; ctx.strokeRect(0, 0, 40, 40);
@@ -102,15 +59,13 @@ export class FaultLineScene extends Phaser.Scene {
       ctx.strokeStyle = '#332b1e'; ctx.lineWidth = 1; ctx.strokeRect(0, 0, 40, 40);
       ctx.fillStyle = '#1e1a10'; ctx.fillRect(2, 2, 10, 10); ctx.fillRect(22, 22, 12, 12);
     });
-    this.genTex('crack_decal', 80, 24, (ctx) => {
-      ctx.strokeStyle = '#444'; ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(0, 12); ctx.lineTo(20, 8); ctx.lineTo(35, 16);
-      ctx.lineTo(50, 6); ctx.lineTo(65, 14); ctx.lineTo(80, 10);
-      ctx.stroke();
-      ctx.lineWidth = 1; ctx.strokeStyle = '#333';
-      ctx.beginPath(); ctx.moveTo(35, 16); ctx.lineTo(30, 24); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(50, 6); ctx.lineTo(55, 0); ctx.stroke();
+    this.genTex('civilian', 36, 36, (ctx) => {
+      ctx.fillStyle = '#cc5500'; ctx.fillRect(8, 20, 20, 12);
+      ctx.fillStyle = '#f5c060'; ctx.beginPath(); ctx.arc(18, 16, 8, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#ffdd00'; ctx.fillRect(8, 9, 20, 5);
+      ctx.strokeStyle = '#f5c060'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(8, 20); ctx.lineTo(4, 12); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(28, 20); ctx.lineTo(32, 12); ctx.stroke();
     });
     this.genTex('charge_ring', 128, 128, (ctx) => {
       const g = ctx.createRadialGradient(64, 64, 48, 64, 64, 64);
